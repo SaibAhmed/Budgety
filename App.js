@@ -114,7 +114,8 @@ var UIController = (function(){
         budgetLabel:".budget__value",
         incomeLabel:".budget__income--value",
         expenseLabel:".budget__expenses--value",
-        percentageLabel :".budget__expenses--percentage"
+        percentageLabel:".budget__expenses--percentage",
+        container:".container"
     };
     
     return{
@@ -131,10 +132,10 @@ var UIController = (function(){
             //create HTML strings with placeholder text
             element = DOMstrings.incomeContainer;
             if(type === "inc"){
-                 Html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">+ %value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                 Html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">+ %value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             }else if(type==="exp"){
                 element = DOMstrings.expensesContainer;
-                Html = '<div class="item clearfix" id="expense-%id%""><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">- %value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+                Html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">- %value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
             }
             //replace the placeholder text with some actual data
             newHtml = Html.replace("%id",obj.id);
@@ -192,6 +193,8 @@ var Controller = (function (budgetctrl,UIctrl){
         }
     
     });
+        
+    document.querySelector(Dom.container).addEventListener("click",ctrlDeleteItem);    
 };
     
     var updateBudget = function(){
@@ -226,6 +229,21 @@ var Controller = (function (budgetctrl,UIctrl){
      updateBudget();
      }
     };
+    
+    var ctrlDeleteItem = function(event){
+        var itemId,splitId,type,ID;
+        
+        itemId=(event.target.parentNode.parentNode.parentNode.parentNode.id);
+        console.log(event.target.parentNode.parentNode.parentNode.parentNode.id);
+        if(itemId){
+            
+            //inc-1
+            splitId = itemId.split("-"); 
+            type=splitId[0];
+            ID=splitId[1];
+        }
+    };
+    
     
     return{
         init:function(){
